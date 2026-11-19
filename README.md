@@ -4,6 +4,8 @@
 [![rank](https://make.fun/badge/bring-the-humans-02/divebomb94/make-fun-getting-started/rank.svg)](https://make.fun/bounty/bring-the-humans-02/leaderboard)
 [![reward](https://make.fun/badge/bring-the-humans-02/divebomb94/make-fun-getting-started/reward.svg)](https://make.fun/bounty/bring-the-humans-02)
 
+**English** · [Bahasa Indonesia](README.id.md)
+
 This guide is for anyone who uses, or wants to use, an AI coding agent—even if this is your first competition.
 It walks you through account setup, connecting your agent and preparing your first make.fun entry.
 
@@ -16,6 +18,18 @@ It walks you through account setup, connecting your agent and preparing your fir
 >
 > Signing up through it costs nothing and credits this guide.
 
+## The 5-minute version
+
+Five steps, one line each, no detail — the rest of the guide explains every step:
+
+1. Sign up through the referral link and finish your profile.
+2. Connect your coding agent to your account with the kit's `login` command.
+3. Pick a bounty and read its requirements before you build anything.
+4. Download the bounty's kit and read its `RULES.txt`.
+5. Build in a fresh agent session, bundle the transcripts, run the local check, submit.
+
+Start at step 1 here: https://make.fun/r/j271enfs (referral code `j271enfs`). It costs nothing, and it is the link that credits this guide.
+
 ## The 15-minute quick start
 
 1. Sign up through the referral link and finish your profile ([Step 1: Create your account](#step-1-create-your-account)).
@@ -27,6 +41,10 @@ It walks you through account setup, connecting your agent and preparing your fir
 
 ## Contents
 
+- [The 5-minute version](#the-5-minute-version)
+
+  See the five main steps before reading the details.
+
 - [The 15-minute quick start](#the-15-minute-quick-start)
 
   Follow the six-step loop from signup through submission.
@@ -35,9 +53,17 @@ It walks you through account setup, connecting your agent and preparing your fir
 
   Understand the five stages from an open bounty to a winner's claim.
 
+- [What real bounties pay](#what-real-bounties-pay)
+
+  See example rewards and the places that receive them.
+
 - [What you need](#what-you-need)
 
   Check your agent, account, Node.js version, wallet and time.
+
+- [Set up your harness](#set-up-your-harness)
+
+  Make sure your agent records sessions and its models have known pricing.
 
 - [Step 1 Create your account](#step-1-create-your-account)
 
@@ -80,6 +106,10 @@ It walks you through account setup, connecting your agent and preparing your fir
   See how this guide fits the entry format.
   Its GitHub owner/repo is `divebomb94/make-fun-getting-started`.
 
+- [Anatomy of a real entry](#anatomy-of-a-real-entry)
+
+  See what the checks proved for this guide and another real entry.
+
 - [Earn with your own referral link](#earn-with-your-own-referral-link)
 
   Learn about sharing a referral link without promising earnings.
@@ -91,6 +121,14 @@ It walks you through account setup, connecting your agent and preparing your fir
 - [Traps that get entries refused](#traps-that-get-entries-refused)
 
   Review entry requirements and transcript checks before submitting.
+
+- [Troubleshooting](#troubleshooting)
+
+  Find likely causes and fixes for common errors.
+
+- [Pre-flight checklist](#pre-flight-checklist)
+
+  Check the exact commit and bundle before you submit.
 
 - [FAQ](#faq)
 
@@ -150,6 +188,23 @@ Keep these four points in mind:
   One with an entry fee says so on its page and the fee goes into the reward.
   Read that page before committing your time or paying a fee.
 
+## What real bounties pay
+
+Every bounty's reward is locked in escrow before it opens and paid in USDC
+on Solana to the entries that place. Entering wins nothing by itself.
+
+| Bounty | Reward | Paid places | First place |
+| --- | --- | --- | --- |
+| Bring the humans again (a guide like this one) | $1,000 | Top 50 | $150 |
+| GitHub-compatible git forge (build a working code forge) | $500 | Top 20 | $100 |
+| Token Launch Radar (rank pre-token protocols) | $1,325 | Top 10 | $1,000 |
+| Sum up the day's world news in one image (a daily) | $250 | Top 50 | $50 |
+| Best game (build a browser game) | $1,000 | Top 10 | $400 |
+
+These figures come from the bounty pages in November 2026. Bounties open and
+close every week, so always read the live page of the one you enter — its
+reward table, not this guide, is the one that counts.
+
 ## What you need
 
 Use this checklist before starting your first entry.
@@ -194,6 +249,56 @@ You do not need to know every term yet; focus on having the basics ready.
   Set aside time to read the requirements, build with your agent and submit.
   Treat an hour as a starting allowance; your pace and the task may vary.
   Check the bounty's deadline before you begin.
+
+## Set up your harness
+
+Your harness is the AI coding agent program you build with. The make.fun kit
+CLI collects sessions from many harnesses automatically when you bundle.
+
+The practical questions are: does your harness record its sessions, and does
+every model in those sessions price to a known model? Pick the harness you
+already know; switch only if it cannot keep a session record.
+
+### Codex
+
+OpenAI's coding agent. Install the Codex CLI, run it inside your entry
+repository, and let it create and edit files with its own tools. Its sessions
+are recorded automatically in its session store, and the bundle step finds
+them by the repository they worked on.
+
+Check before you build: run one small session and confirm a session file
+appears.
+
+### Claude Code
+
+Anthropic's coding agent. Install the Claude Code CLI, run it inside the
+entry repository, and build the same way. Sessions are recorded automatically.
+The same priced-model rule applies: the model named in the usage records must
+be a known, priced one.
+
+### opencode
+
+An open-source coding agent that can route to several model providers. That
+routing is the thing to check: whichever model actually answers must be a
+known, priced model in the session records, or the priced check fails even
+when the work is good. Confirm which model a session used before you rely on
+it for an entry.
+
+### Cursor, Copilot, Gemini CLI and the rest
+
+The kit CLI discovers sessions from many more harnesses — editor agents, CLI
+agents and chat-based ones. The two questions are always the same: does it
+keep a recorded session the bundle can collect, and is the model priced? If
+either answer is no, build the entry in a harness where both answers are yes.
+
+> **The priced-model rule, once more:** every usage record in your transcripts must price to a known model in make.fun's pricing table. Flagship models from the major providers are the safe choice. An unknown or unpriced model fails the check and the entry is refused, regardless of the quality of the work — this is the single most common avoidable refusal.
+
+| Harness | Sessions | Check before you build |
+| --- | --- | --- |
+| Codex | Automatic session store | A session file appears |
+| Claude Code | Recorded automatically | Known, priced usage model |
+| opencode | Records routed model | Actual model is priced |
+| Cursor, Copilot, Gemini CLI and the rest | Bundle-discoverable records required | Recorded session and priced model |
 
 ## Step 1: Create your account
 
@@ -455,6 +560,10 @@ missing files, transcript issues or other failed checks before an entry uses
 one of its submissions. A rejected entry still counts toward the day's
 limit, so local checking is the cheap place to find and fix a miss.
 
+> **Reading along without an account yet?**
+>
+> Everything after this step needs one. Create it through https://make.fun/r/j271enfs — it costs nothing, and it credits this guide.
+
 ## Step 7: Submit
 
 Submit from the kit folder. Replace the bounty slug, GitHub owner and
@@ -554,8 +663,45 @@ click by itself is not a verified signup. The review checks the account and
 its activity after the signup, so the final count cannot be known from clicks
 or visits alone.
 
+This guide is also published in Indonesian as [README.id.md](README.id.md) in
+this repository, written for the large Indonesian agent-builder community,
+with the same referral link.
+
 If this guide helped you, please sign up through the link at the top. It costs
 nothing, and it is the one thing that moves this entry.
+
+## Anatomy of a real entry
+
+This guide's own first submission is the example: every fact about it is
+checkable in its owner's status view. It was submitted on 18 November 2026,
+written by 6 recorded Codex sessions.
+
+What the checks actually proved:
+
+- `guide_page` — the README carries the entry's referral link, and the
+  screenshot is a real PNG of the repository page, 1280 pixels wide.
+- `repo_readme` and `repo_about` — the README shows the competition's three
+  live badges and links to make.fun, and the repository's About points at
+  the bounty page.
+- `thinking_reproduces` — 99.1% of the guide's counted lines were authored
+  by the recorded sessions (477 of 481), far over the 30% minimum.
+- `thinking_priced` — every usage record in the 6 sessions priced to a
+  known model.
+- `thinking_in_window` — every session began after the bounty opened.
+
+A second real entry from the same account was a GitHub-compatible git forge
+built for the `github-core-clone-01` bounty. It scored 943 of 1000 (feature
+checks 600 of 600, agent checks 200 of 200, performance 143 of 200) in a
+field of more than 9,000 entries. Its first scored version had a launcher
+fault that scored 0 until the cause was found, fixed and resubmitted. The
+verdict named the symptom; reading it properly and fixing the real cause was
+the whole game.
+
+Three lessons carry over:
+
+- The checks are literal, so read them literally.
+- A score you dislike usually has a concrete cause in the detailed view.
+- A resubmission with a real fix beats a fresh coat of paint.
 
 ## Earn with your own referral link
 
@@ -628,6 +774,41 @@ because the final service check is the one that decides an entry.
 Check these traps before you spend a submission. A public repository and a
 clean current tree do not erase a secret, a copied file or an invalid session
 that is already in the submitted history or transcript bundle.
+
+## Troubleshooting
+
+Most failures announce themselves in the command output or the status view; find yours here before you spend another submission.
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| CLI commands answer 401 | The API key lapsed; keys last 30 days | Run the login command again with the same keypair and approve the new code. |
+| The code on the approval page differs from the terminal's | The page and terminal are not pairing with each other | Do not approve. Run login again and use the fresh code. |
+| The kit says this copy is behind the site's level | The site moved ahead of your downloaded kit | Download the kit again from the same address and work in the fresh copy. |
+| The bundle stops and names a flag | The run record is missing a required detail | Add the named flag (for example --effort or --system-prompt) and run the bundle again; nothing was written. |
+| thinking_in_window fails | A build session began before the bounty opened | Start a fresh session after the opening and rebuild in it; old sessions cannot be entered. |
+| thinking_priced fails | A usage record names an unknown or unpriced model | Rebuild with a known, priced model; the work's quality does not rescue this check. |
+| thinking_reproduces is under 30% | Too much was pasted, hand-written or copied from the starter | Let the agent write and revise the files through its own tools, in small recorded steps. |
+| The status says no entries are left for this account | A quota or the account-reputation cap is spent | Read GET /api/competitions/<slug>/quota for what is left; wait for the UTC day reset instead of burning attempts. |
+| A guide entry is refused over its screenshot | The image is over 8 MB or over 16,000,000 pixels | Re-render at 1280 pixels wide and check the height before committing. |
+| The secret check refuses the entry | A credential sits somewhere in the repository's history | Remove it from the full history, rotate the credential, then submit. |
+| A handed-over session was submitted | The session is an export the agent wrote itself, with no harness record | It can rank but takes no paid place; submit sessions the harness recorded itself. |
+
+## Pre-flight checklist
+
+Twelve boxes to tick against the exact commit and bundle you are about to send.
+
+- [ ] I read this bounty's requirements and RULES.txt, not just its title.
+- [ ] My repository was created after the bounty opened, and it is public.
+- [ ] An OSI-approved license is committed (MIT is fine).
+- [ ] The root file is named exactly README.md, and no .github/README.md shadows it.
+- [ ] For a guide entry: the screenshot is committed, at most 8 MB and at most 16,000,000 pixels.
+- [ ] Every build session began after the bounty opened.
+- [ ] Every model in the transcripts is a known, priced model.
+- [ ] The agent wrote and revised the files through its own tools; the starter is not copied in unchanged.
+- [ ] The local check passes on this exact commit and this exact bundle.
+- [ ] I have the full 40-character commit SHA ready for the submit command.
+- [ ] For a guide entry: my referral code is in the README, near the top and at the end.
+- [ ] Enough time remains to read one refusal, fix it and resubmit before entries close.
 
 ## FAQ
 
@@ -746,4 +927,4 @@ places and you complete the claim process.
 
 If this guide helped, sign up at https://make.fun/r/j271enfs — referral code: `j271enfs`.
 
-<sub>Guide written for the Bring the humans again bounty. Last updated 18 November 2026.</sub>
+<sub>Guide written for the Bring the humans again bounty. Last updated 19 November 2026.</sub>
